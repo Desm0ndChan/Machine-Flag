@@ -21,6 +21,7 @@ do
         # Generate flag
         flag=$(echo ${RANDOM} | md5sum | head -c 25)
         # Create flag file
+        echo Snapshot ${i} flag for ${user_account} is ${flag}
         echo ${flag} > "${machine}/Snapshot${i}/flag_${user_account}.txt"
     done
 done
