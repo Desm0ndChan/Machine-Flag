@@ -33,3 +33,5 @@ do
     echo "Snapshot ${snapshot_number} file ${file_path} does not exist."
   fi
 done
+# run the script as follows:
+# ./check_flag.sh snapshot_number

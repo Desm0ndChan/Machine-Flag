@@ -32,4 +32,9 @@ do
   
   # Change the permissions of the output file to 400
   chmod 400 $file_path
+  # Change the owner and the group of the output file to the user account
+  chown ${user_accounts[index]}:${user_accounts[index]} $file_path
+
 done
+# Run the script as follows: 
+#./get_flag.sh machine_name snapshot_number
