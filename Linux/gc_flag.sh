@@ -11,7 +11,7 @@ server="localhost"
 port="8000"
 
 # Machine name and snapshot number taken from command line arguments
-machine=$1
+machine="" #change this
 snapshot_number=$2
 
 # Check if both arguments are provided
