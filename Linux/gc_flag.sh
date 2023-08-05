@@ -28,7 +28,7 @@ do
   file_path="${directories[index]}/flag_${user_accounts[index]}.txt"
 
   # Retrieve flag file using wget and save it to a specific directory, overwriting if it exists
-  wget -O $file_path "http://${server}:${port}/${machine}/Snapshot${snapshot_number}/flag_${user_accounts[index]}.txt"
+  wget -qO $file_path "http://${server}:${port}/${machine}/Snapshot${snapshot_number}/flag_${user_accounts[index]}.txt"
   
   # Change the permissions of the output file to 400
   chmod 400 $file_path
