@@ -26,6 +26,8 @@ do
   if [ -f "$file_path" ]; then
     # Print a message with the snapshot number and file name
     echo "Snapshot ${snapshot_number} file ${file_path} value is:"
+    # Print the permissions of the file
+    echo "Permissions: $(stat -c "%A" "$file_path")"
     # Print the contents of the file
     cat "$file_path"
     echo ""
