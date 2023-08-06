@@ -26,11 +26,24 @@ for ($i = 0; $i -lt $user_accounts.Length; $i++) {
   # Retrieve flag file using Invoke-WebRequest and save it to a specific directory, overwriting if it exists
   Invoke-WebRequest -Uri "http://$server`:$port/$machine/Snapshot$snapshot_number/flag_$($user_accounts[$i]).txt" -OutFile $file_path -ErrorAction SilentlyContinue
 
-  # Change the permissions of the output file to 400
+  # Change the permissions of the output file
   $acl = Get-Acl -Path $file_path
-  $acl.SetAccessRuleProtection($true, $false)
-  Set-Acl -Path $file_path -AclObject $acl
 
+  # Grant Read permission to the original user
+  $userAccessRule = New-Object System.Security.AccessControl.FileSystemAccessRule($user_accounts[$i], "Read", "Allow")
+  $acl.AddAccessRule($userAccessRule)
+
+  # Grant Read permission to Administrator
+  $adminAccessRule = New-Object System.Security.AccessControl.FileSystemAccessRule("Administrator", "Read", "Allow")
+  $acl.AddAccessRule($adminAccessRule)
+
+  # Grant Read permission to System
+  $systemAccessRule = New-Object System.Security.AccessControl.FileSystemAccessRule("System", "Read", "Allow")
+  $acl.AddAccessRule($systemAccessRule)
+
+  # Apply the updated ACL to the file
+  Set-Acl -Path $file_path -AclObject $acl
+  
   # Check if the file exists
   if (Test-Path -Path $file_path) {
     # Print a message with the snapshot number and file name
