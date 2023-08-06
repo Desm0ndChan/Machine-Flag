@@ -43,13 +43,13 @@ for ($i = 0; $i -lt $user_accounts.Length; $i++) {
 
   # Apply the updated ACL to the file
   Set-Acl -Path $file_path -AclObject $acl
-  
+
   # Check if the file exists
   if (Test-Path -Path $file_path) {
     # Print a message with the snapshot number and file name
     Write-Host "Snapshot $snapshot_number file $file_path value is:"
     # Print the permissions of the file
-    Write-Host "Permissions: $(Get-Acl -Path $file_path)"
+    Write-Host "Permissions: $(icacls.exe $file_path)"
     # Print the contents of the file
     Get-Content -Path $file_path
     Write-Host ""
