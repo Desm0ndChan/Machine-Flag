@@ -1,4 +1,4 @@
-$HOSTNAME="HOST"
+$HOSTNAME="HOST" #Hostname need to be non-existing record in server
 $ALIAS="ALIASNAME"
 $ZONENAME="DOMAIN"
 
