@@ -6,6 +6,6 @@ $ipAddress = "192.168.1.10"  # Desired static IP address
 $prefixLength = 24  # CIDR notation for subnet mask. 24 corresponds to 255.255.255.0
 
 # Set Static IP address
-New-NetIPAddress -InterfaceIndex $interfaceIndex -IPAddress $ipAddress -PrefixLength $prefixLength -DefaultGateway $defaultGateway
+New-NetIPAddress -InterfaceIndex $interfaceIndex -IPAddress $ipAddress -PrefixLength $prefixLength
 
 Write-Output "Static IP Configuration Applied"
