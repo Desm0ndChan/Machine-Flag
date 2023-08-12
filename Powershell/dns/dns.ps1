@@ -12,16 +12,10 @@ Add-WindowsFeature DNS -IncludeManagementTools
 # Import the DnsServer module for the PowerShell
 Import-Module DnsServer
 
-# Generate the 25 bytes hash value
-$flag = Get-Random | Out-String | Get-FileHash -Algorithm MD5 | ForEach-Object {$_.Hash.Substring(0, 25)}
-
-# Add TXT record to DNS
-Add-DnsServerResourceRecord -Txt -DescriptiveText $flag -Name "flag" -ZoneName $domainName #Change this
-
-# Adding subdomains
+# Adding ns server
 foreach ($subdomain in $subdomains) {
     Add-DnsServerPrimaryZone -Name "$subdomain.$domainName" -ReplicationScope Forest
 }
 
 # Enable zone transfer to any server
-Set-DnsServerPrimaryZone -Name $domainName -TransferToAnyServer $true
+Set-DnsServerPrimaryZone -Name $ZoneName -SecureSecondaries TransferAnyServer
