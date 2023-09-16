@@ -10,7 +10,7 @@ $port = "80"
 
 # Machine name and snapshot number taken from command line arguments
 $machine = "" #change this
-$snapshot_number = $args[1]
+$snapshot_number = $args[0]
 
 # Check if both arguments are provided
 if ([string]::IsNullOrWhiteSpace($machine) -or [string]::IsNullOrWhiteSpace($snapshot_number)) {
@@ -24,7 +24,7 @@ for ($i = 0; $i -lt $user_accounts.Length; $i++) {
   $file_path = Join-Path -Path $directories[$i] -ChildPath ("flag_" + $flag_names[$i] + ".txt")
 
   # Retrieve flag file using Invoke-WebRequest and save it to a specific directory, overwriting if it exists
-  Invoke-WebRequest -Uri "http://$server`:$port/$machine/Snapshot$snapshot_number/flag_$($flag_namess[$i]).txt" -OutFile $file_path -ErrorAction SilentlyContinue
+  Invoke-WebRequest -Uri "http://$server`:$port/$machine/Snapshot$snapshot_number/flag_$($flag_names[$i]).txt" -OutFile $file_path -ErrorAction SilentlyContinue
 
   # Change the permissions of the output file
   $acl = Get-Acl -Path $file_path
@@ -48,11 +48,12 @@ for ($i = 0; $i -lt $user_accounts.Length; $i++) {
   if (Test-Path -Path $file_path) {
     # Print a message with the snapshot number and file name
     Write-Host "Snapshot $snapshot_number file $file_path value is:"
-    # Print the permissions of the file
-    Write-Host "Permissions: $(icacls.exe $file_path)"
     # Print the contents of the file
     Get-Content -Path $file_path
     Write-Host ""
+    # Print the permissions of the file
+    Write-Host "Permissions: "
+    icacls.exe $file_path
   } else {
     Write-Host "Snapshot $snapshot_number file $file_path does not exist."
   }
