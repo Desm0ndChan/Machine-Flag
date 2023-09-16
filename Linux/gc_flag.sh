@@ -2,7 +2,7 @@
 
 # An array of user account names
 user_accounts=("user1" "user2" "user3")
-
+flag_names=("easy","intermediate","hard")
 # Array of directories where to save the flags
 directories=("/path/to/save/flags/user1" "/path/to/save/flags/user2" "/path/to/save/flags/user3")
 
@@ -25,10 +25,10 @@ fi
 for index in "${!user_accounts[@]}"
 do
   # File path where the flag will be stored
-  file_path="${directories[index]}/flag_${user_accounts[index]}.txt"
+  file_path="${directories[index]}/flag_${flag_names[index]}.txt"
 
   # Retrieve flag file using wget and save it to a specific directory, overwriting if it exists
-  wget -qO $file_path "http://${server}:${port}/${machine}/Snapshot${snapshot_number}/flag_${user_accounts[index]}.txt"
+  wget -qO $file_path "http://${server}:${port}/${machine}/Snapshot${snapshot_number}/flag_${flag_names[index]}.txt"
   
   # Change the permissions of the output file to 400
   chmod 400 $file_path

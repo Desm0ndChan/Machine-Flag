@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # An array of user account names
-user_accounts=("user1" "user2" "user3")
+flag_names=("easy" "intermediate" "hard")
 
 # Machine names
 machine="MACHINE_NAME"
@@ -16,12 +16,12 @@ do
     mkdir "${machine}/Snapshot${i}"
 
     # Loop to create 3 flags in each snapshot
-    for user_account in "${user_accounts[@]}"
+    for flag_names in "${flag_names[@]}"
     do
         # Generate flag
         flag=$(echo ${RANDOM} | md5sum | head -c 25)
         # Create flag file
-        echo Snapshot ${i} flag for ${user_account} is ${flag}
-        echo ${flag} > "${machine}/Snapshot${i}/flag_${user_account}.txt"
+        echo Snapshot ${i} flag for ${flag_names} is ${flag}
+        echo ${flag} > "${machine}/Snapshot${i}/flag_${flag_names}.txt"
     done
 done

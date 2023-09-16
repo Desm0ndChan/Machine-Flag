@@ -1,6 +1,6 @@
 # An array of user account names
 $user_accounts = "user1", "user2", "user3" #change this
-
+$flag_names = "easy", "intermediate", "hard" #change this
 # Array of directories where to save the flags
 $directories = "C:\", "C:\", "C:\" #change this
 
@@ -21,10 +21,10 @@ if ([string]::IsNullOrWhiteSpace($machine) -or [string]::IsNullOrWhiteSpace($sna
 # Loop to retrieve 3 flags for a given snapshot
 for ($i = 0; $i -lt $user_accounts.Length; $i++) {
   # File path where the flag will be stored
-  $file_path = Join-Path -Path $directories[$i] -ChildPath ("flag_" + $user_accounts[$i] + ".txt")
+  $file_path = Join-Path -Path $directories[$i] -ChildPath ("flag_" + $flag_names[$i] + ".txt")
 
   # Retrieve flag file using Invoke-WebRequest and save it to a specific directory, overwriting if it exists
-  Invoke-WebRequest -Uri "http://$server`:$port/$machine/Snapshot$snapshot_number/flag_$($user_accounts[$i]).txt" -OutFile $file_path -ErrorAction SilentlyContinue
+  Invoke-WebRequest -Uri "http://$server`:$port/$machine/Snapshot$snapshot_number/flag_$($flag_namess[$i]).txt" -OutFile $file_path -ErrorAction SilentlyContinue
 
   # Change the permissions of the output file
   $acl = Get-Acl -Path $file_path

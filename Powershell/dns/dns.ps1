@@ -12,7 +12,6 @@ Add-WindowsFeature DNS -IncludeManagementTools
 # Import the DnsServer module for the PowerShell
 Import-Module DnsServer
 
-# Adding ns server
 foreach ($subdomain in $subdomains) {
     Add-DnsServerPrimaryZone -Name "$subdomain.$domainName" -ReplicationScope Forest
 }
