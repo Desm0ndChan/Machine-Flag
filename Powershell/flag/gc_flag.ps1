@@ -1,6 +1,7 @@
 # An array of user account names
 $user_accounts = "user1", "user2", "user3"
 $flag_names = "easy", "intermediate", "hard"
+$row_names = "easy", "int", "hard"
 # Array of directories where to save the flags
 $directories = "C:\", "C:\", "C:\"
 
@@ -44,7 +45,7 @@ for ($i = 0; $i -lt $user_accounts.Length; $i++) {
     $flags[$flag_names[$i]] = Get-Content -Path $file_path
     
     # Print the permissions of the file
-    Write-Host "Permissions of $file_path: "
+    Write-Host "Permissions of ${file_path}: "
     icacls.exe $file_path
     Write-Host "" # Empty line for clarity
   } else {
@@ -54,7 +55,7 @@ for ($i = 0; $i -lt $user_accounts.Length; $i++) {
 
 # Print the table
 Write-Host ""
-Write-Host ("Snapshot " + $snapshot_number + "`t" + ($flag_names -join "`t"))
+Write-Host ("Snapshot " + $snapshot_number + "`t" + ($row_names -join "`t`t`t`t"))
 
 $row = "Snapshot $snapshot_number"
 foreach ($flag_name in $flag_names) {
