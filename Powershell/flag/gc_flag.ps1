@@ -1,22 +1,25 @@
 # An array of user account names
-$user_accounts = "user1", "user2", "user3" #change this
-$flag_names = "easy", "intermediate", "hard" #change this
+$user_accounts = "user1", "user2", "user3"
+$flag_names = "easy", "intermediate", "hard"
+$row_names = "easy", "int", "hard"
 # Array of directories where to save the flags
-$directories = "C:\", "C:\", "C:\" #change this
+$directories = "C:\", "C:\", "C:\"
 
 # Server details
-$server = "localhost"#change this
+$server = "localhost"
 $port = "80"
 
 # Machine name and snapshot number taken from command line arguments
-$machine = "" #change this
+$machine = ""
 $snapshot_number = $args[0]
 
-# Check if both arguments are provided
-if ([string]::IsNullOrWhiteSpace($machine) -or [string]::IsNullOrWhiteSpace($snapshot_number)) {
-  Write-Host "Please provide both machine name and snapshot number"
+# Check if snapshot number is provided
+if ([string]::IsNullOrWhiteSpace($snapshot_number)) {
+  Write-Host "Please provide the snapshot number"
   exit 1
 }
+
+$flags = @{}
 
 # Loop to retrieve 3 flags for a given snapshot
 for ($i = 0; $i -lt $user_accounts.Length; $i++) {
@@ -25,36 +28,37 @@ for ($i = 0; $i -lt $user_accounts.Length; $i++) {
 
   # Retrieve flag file using Invoke-WebRequest and save it to a specific directory, overwriting if it exists
   Invoke-WebRequest -Uri "http://$server`:$port/$machine/Snapshot$snapshot_number/flag_$($flag_names[$i]).txt" -OutFile $file_path -ErrorAction SilentlyContinue
-
+  
   # Change the permissions of the output file
   $acl = Get-Acl -Path $file_path
 
   # Grant Read permission to the original user
   $userAccessRule = New-Object System.Security.AccessControl.FileSystemAccessRule($user_accounts[$i], "Read", "Allow")
-  $acl.AddAccessRule($userAccessRule)
-
-  # Grant Read permission to Administrator
-  $adminAccessRule = New-Object System.Security.AccessControl.FileSystemAccessRule("Administrator", "Read", "Allow")
-  $acl.AddAccessRule($adminAccessRule)
-
-  # Grant Read permission to System
-  $systemAccessRule = New-Object System.Security.AccessControl.FileSystemAccessRule("System", "Read", "Allow")
-  $acl.AddAccessRule($systemAccessRule)
+  $acl.SetAccessRule($userAccessRule)
 
   # Apply the updated ACL to the file
   Set-Acl -Path $file_path -AclObject $acl
 
   # Check if the file exists
   if (Test-Path -Path $file_path) {
-    # Print a message with the snapshot number and file name
-    Write-Host "Snapshot $snapshot_number file $file_path value is:"
-    # Print the contents of the file
-    Get-Content -Path $file_path
-    Write-Host ""
+    # Store flag value in hashtable for later printing
+    $flags[$flag_names[$i]] = Get-Content -Path $file_path
+    
     # Print the permissions of the file
-    Write-Host "Permissions: "
+    Write-Host "Permissions of ${file_path}: "
     icacls.exe $file_path
+    Write-Host "" # Empty line for clarity
   } else {
     Write-Host "Snapshot $snapshot_number file $file_path does not exist."
   }
 }
+
+# Print the table
+Write-Host ""
+Write-Host ("Snapshot " + $snapshot_number + "`t" + ($row_names -join "`t`t`t`t"))
+
+$row = "Snapshot $snapshot_number"
+foreach ($flag_name in $flag_names) {
+  $row += "`t" + $flags[$flag_name]
+}
+Write-Host $row

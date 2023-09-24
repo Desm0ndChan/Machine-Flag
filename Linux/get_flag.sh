@@ -8,10 +8,10 @@ directories=("/path/to/save/flags/user1" "/path/to/save/flags/user2" "/path/to/s
 
 # Server details
 server="localhost"
-port="8000"
+port="80"
 
 # Machine name and snapshot number taken from command line arguments
-machine=$1
+machine="" # Change this
 snapshot_number=$2
 
 # Check if both arguments are provided
