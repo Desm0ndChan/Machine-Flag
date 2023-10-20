@@ -7,7 +7,7 @@ flag_names=("easy" "intermediate" "hard")
 directories=("/path/to/save/flags/user1" "/path/to/save/flags/user2" "/path/to/save/flags/user3")
 
 # Server details
-server="localhost"
+server="192.168.2.1"
 port="80"
 
 # snapshot number taken from command line arguments
@@ -51,7 +51,7 @@ do
 done
 
 # Print the table
-echo -e "Snapshot\t${flag_names[0]}\t${flag_names[1]}\t${flag_names[2]}"
+echo -e "Snapshot\t${flag_names[0]}\t\t\t\t${flag_names[1]}\t\t\t${flag_names[2]}"
 row="Snapshot $snapshot_number"
 for flag_name in "${flag_names[@]}"
 do
